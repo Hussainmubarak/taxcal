@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <link rel="stylesheet" type="text/css" href="design.css">
+
+</head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/linways/table-to-excel@v1.0.4/dist/tableToExcel.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0/dist/chartjs-plugin-datalabels.min.js"></script>
+
+    <!-- Bootstrap core CSS -->
+<link href="https://getbootstrap.com/docs/4.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<body onload="calculate_total_taxes()">
+<div style="padding-top: 15px;"></div>
+<!Monthly Income Div>
+<div id="income" style="display: block;">
+    <h3  class="col-md-6" style="padding-top: 30px;" style= "font-size: 40px;">ITAX</h3>
+    <div id="income" style="padding-top: 10px;">
+        <div class="container">
+          <div class="row" style="padding-bottom: 10px;">
+            <div class="col-md-3">
+              <input id="state" type="text" class="form-control" placeholder="Filing Status" aria-label="Recipient's username" disabled>
+            </div>
+            <div class="col-md-3">
+              <select class="custom-select" id="file_select" onchange="calculate_total_taxes()">
+                <option value="1">Single</option>
+                <option value="2">Married</option>
+              </select>
+            </div>
+          </div>
+          <div class="row" style="padding-bottom: 10px;">
+                <div class="col-md-3">
+                    <input id="annual_income_input" type="text" class="form-control" placeholder="Annual Income" aria-label="Recipient's username" disabled>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" id="annual_income" name="annual_income" value="$50,000" onfocus="this.value = this.value.replace(/,/g, '').replace(/\$/g, '')" oninput="this.value = change_cash(this.value);" onblur="calculate_total_taxes();" class="form-control" style="border-radius: 10px; border: 1px solid #05668D; background-color:white; text-align:">
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 10px;">
+                <div class="col-md-3">
+                    <input id="state" type="text" class="form-control" placeholder="State" aria-label="Recipient's username" disabled>
+                </div>
+                <div class="col-md-3">
+                  <select class="custom-select" id="state_select" onchange="calculate_total_taxes()">
+                    <option value="1">Alabama</option>
+                    <option value="2">Alaska</option>
+                    <option value="3">Arizona</option>
+                    <option value="4">Arkansas</option>
+                    <option value="5">California</option>
+                    <option value="6">Colorado</option>
+                    <option value="7">Connecticut</option>
+                    <option value="8">Delaware</option>
+                    <option value="9">Florida</option>
+                    <option value="10">Georgia</option>
+                    <option value="11">Hawaii</option>
+                    <option value="12">Idaho</option>
+                    <option value="13">Illinois</option>
+                    <option value="14">Indiana</option>
+                    <option value="15">Iowa</option>
+                    <option value="16">Kansas</option>
+                    <option value="17">Kentucky</option>
+                    <option value="18">Louisiana</option>
+                    <option value="19">Maine</option>
+                    <option value="20">Maryland</option>
+                    <option value="21">Massachusetts</option>
+                    <option value="22">Michigan</option>
+                    <option value="23">Minnesota</option>
+                    <option value="24">Mississippi</option>
+                    <option value="25">Missouri</option>
+                    <option value="26">Montana</option>
+                    <option value="27">Nebraska</option>
+                    <option value="28">Nevada</option>
+                    <option value="29">New Hampshire</option>
+                    <option value="30">New Jersey</option>
+                    <option value="31">New Mexico</option>
+                    <option value="32">New York</option>
+                    <option value="33">North Carolina</option>
+                    <option value="34">North Dakota</option>
+                    <option value="35">Ohio</option>
+                    <option value="36">Oklahoma</option>
+                    <option value="37">Oregon</option>
+                    <option value="38">Pennsylvania</option>
+                    <option value="39">Rhode Island</option>
+                    <option value="40">South Carolina</option>
+                    <option value="41">South Dakota</option>
+                    <option value="42">Tennessee</option>
+                    <option value="43">Texas</option>
+                    <option value="44">Utah</option>
+                    <option value="45">Vermont</option>
+                    <option value="46">Virginia</option>
+                    <option value="47">Washington</option>
+                    <option value="48">West Virginia</option>
+                    <option value="49">Wisconsin</option>
+                    <option value="50">Wyoming</option>
+                    <option value="51">D.C.</option>
+                  </select>
+                </div>
+            </div>
+        </div>
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Your Estimated Tax Breakdown</h5>
+
+            <div class="row" style="padding-bottom: 0px;">
+                <div class="col-md-3">
+                    <p class="card-text" style="font-weight: bold;">Salary</p>
+                </div>
+                <div class="col-md-3">
+                    <p class="card-text" style="font-weight: bold;"><span id="salary">$50,000</span></p>
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 0px;">
+                <div class="col-md-3">
+                    <p class="card-text" style="font-weight: ;">Federal Income Taxes</p>
+                </div>
+                <div class="col-md-3">
+                    <p class="card-text" style="font-weight: ;"><span id="federal_taxes">$4,296</span></p>
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 0px;">
+                <div class="col-md-3">
+                    <p class="card-text" style="font-weight: ;">State Income Taxes</p>
+                </div>
+                <div class="col-md-3">
+                    <p class="card-text" style="font-weight: ;"><span id="state_taxes">$2,145</span></p>
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 0px;">
+                <div class="col-md-3">
+                    <p class="card-text" style="font-weight: ;">Social Security</p>
+                </div>
+                <div class="col-md-3">
+                    <p class="card-text" style="font-weight: ;"><span id="ss_taxes">$3,100</span></p>
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 10px;">
+                <div class="col-md-3">
+                    <p class="card-text" style="font-weight: ;">Medicare</p>
+                </div>
+                <div class="col-md-3">
+                    <p class="card-text" style="font-weight: ;"><span id="medicare_taxes">$725</span></p>
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 0px;">
+                <div class="col-md-3">
+                    <p class="card-text" style="font-weight: bold;">Total Taxes</p>
+                </div>
+                <div class="col-md-3">
+                    <p class="card-text" style="font-weight: bold;"><span id="all_taxes">$10,266</span></p>
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 0px;">
+                <div class="col-md-3">
+                    <p class="card-text" style="font-weight: bold;">Post-Tax Pay</p>
+                </div>
+                <div class="col-md-3">
+                    <p class="card-text" style="font-weight: bold;"><span id="pt_income">$39,733</span></p>
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 0px;">
+                <div class="col-md-3">
+                    <p class="card-text" style="font-weight: bold;">Effective Tax Rate</p>
+                </div>
+                <div class="col-md-3">
+                    <p class="card-text" style="font-weight: bold;"><span id="effective_tax">20.5%</span></p>
+                </div>
+            </div>
+    </div>
+</div>
+</div>
+
+<img id="flag" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_Alabama.svg/1920px-Flag_of_Alabama.svg.png" alt="An image of the selected state's flag" class="img-thumbnail" style="width:150px; display: none;">
+
+  <div id="accordion">
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          Federal Income Tax Breakdown
+        </button>
+      </h5>
+    </div>
+
+    <div id="collapseOne" class="collapse " aria-labelledby="headingOne" data-parent="#accordion">
+      <div class="card-body">
+        <p>Your Federal Income Taxes are calculated by taking your annual income and subtracting your deductions.</p>
+        <div id="fed_change_table" class="col-md-6" style="display: ; padding-top: 10px; font-size: 12px;"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="headingTwo">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          Social Security Tax Breakdown
+             </button>
+           </h5>
+         </div>
+         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+           <div class="card-body">
+             <p>For 2021, your Social Security Taxes are calculated by taking your annual income and multiplying by 6.2%.</p>
+             <p>Social Security Taxes <strong>only</strong> apply to your first $142,800 of income. Anything beyond that amount is not taxed.</p>
+             <div id="ss_change_table" class="col-md-6" style="display: ; padding-top: 10px; font-size: 12px;"></div>
+           </div>
+         </div>
+       </div>
+       <div class="card">
+         <div class="card-header" id="headingThree">
+           <h5 class="mb-0">
+             <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+               Medicare Tax Breakdown
+             </button>
+           </h5>
+         </div>
+         <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+           <div class="card-body">
+             <p>Your Federal Income Taxes are calculated by taking your annual income and subtracting your deductions.</p>
+             <div id="medicare_change_table" class="col-md-6" style="display: ; padding-top: 10px; font-size: 12px;"></div>
+           </div>
+         </div>
+       </div>
+         <div class="card">
+         <div class="card-header" id="headingFour">
+           <h5 class="mb-0">
+             <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+               State Income Tax Breakdown
+             </button>
+           </h5>
+         </div>
+         <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+           <div class="card-body">
+             <p>Your State Income Taxes are calculated by taking your annual income and subtracting your state's deductions.</p>
+             <div id="state_change_table" class="col-md-6" style="display: ; padding-top: 10px; font-size: 12px;"></div>
+           </div>
+         </div>
+       </div>
+     </div>
+
+
+
+
+
+
+
+
+     </div>
+     </body>
+
+
+     <script>
+
+     function change_percentage(percentage) {
+         percentage = percentage.replace(/%/g, '');
+         percentage = percentage.replace(/,/g, '');
+         if (percentage.indexOf(".") >= 0) {
+             var decimal_pos = percentage.indexOf(".");
+             var left_side = percentage.substring(0, decimal_pos);
+             var right_side = percentage.substring(decimal_pos);
+             right_side = right_side.replace(/\./g, "");
+             left_side = formatNumber(left_side);
+             right_side = formatNumber(right_side);
+             right_side = right_side.substring(0, 1);
+             percentage = left_side + "." + right_side;
+         }
+         else {
+             percentage = formatNumber(percentage);
+         }
+         return percentage;
+     }
+
+     function change_percentage2(percentage) {
+         percentage = percentage.replace(/%/g, '');
+         percentage = percentage.replace(/,/g, '');
+         if (percentage.indexOf(".") >= 0) {
+             var decimal_pos = percentage.indexOf(".");
+             var left_side = percentage.substring(0, decimal_pos);
+             var right_side = percentage.substring(decimal_pos);
+             right_side = right_side.replace(/\./g, "");
+             left_side = formatNumber(left_side);
+             right_side = formatNumber(right_side);
+             right_side = right_side.substring(0, 1);
+             percentage = left_side + "." + right_side + "%";
+         }
+         else {
+             percentage = formatNumber(percentage) + ".0%";
+         }
+         return percentage;
+     }
+
+
+     function change_percentage3a(percentage) {
+         percentage = percentage.replace(/%/g, '');
+         percentage = percentage.replace(/,/g, '');
+         if (percentage.indexOf(".") >= 0) {
+             var decimal_pos = percentage.indexOf(".");
+             var left_side = percentage.substring(0, decimal_pos);
+             var right_side = percentage.substring(decimal_pos);
+             right_side = right_side.replace(/\./g, "");
+             left_side = formatNumber(left_side);
+             right_side = formatNumber(right_side);
+             right_side = right_side.substring(0, 2);
+             percentage = left_side + "." + right_side;
+         }
+         else {
+             percentage = formatNumber(percentage);
+         }
+         return percentage;
+     }
+
+     function change_percentage3b(percentage) {
+         percentage = percentage.replace(/%/g, '');
+         percentage = percentage.replace(/,/g, '');
+         if (percentage.indexOf(".") >= 0) {
+             var decimal_pos = percentage.indexOf(".");
+             var left_side = percentage.substring(0, decimal_pos);
+             var right_side = percentage.substring(decimal_pos);
+             right_side = right_side.replace(/\./g, "");
+             left_side = formatNumber(left_side);
+             right_side = formatNumber(right_side);
+             right_side = right_side.substring(0, 2);
+             percentage = left_side + "." + right_side + "%";
+         }
+         else {
+             percentage = formatNumber(percentage) + ".0%";
+         }
+         return percentage;
+     }
+
+     function change_percentage4(percentage) {
+         percentage = percentage.replace(/%/g, '');
+         percentage = percentage.replace(/,/g, '');
+         if (percentage.indexOf(".") >= 0) {
+             var decimal_pos = percentage.indexOf(".");
+             var left_side = percentage.substring(0, decimal_pos);
+             var right_side = percentage.substring(decimal_pos);
+             right_side = right_side.replace(/\./g, "");
+             left_side = formatNumber(left_side);
+             right_side = formatNumber(right_side);
+             right_side = right_side.substring(0, 1);
+             percentage = left_side + "." + right_side + "%";
+         }
+         else {
+             percentage = formatNumber(percentage) + "%";
+         }
+         return percentage;
+     }
+
+     function change_cash(money) {
+         money = money.replace(/[^\d.-]/g, '');
+         if (money.indexOf(".") >= 0) {
+             var decimal_pos = money.indexOf(".");
+             var left_side = money.substring(0, decimal_pos);
+             var right_side = money.substring(decimal_pos);
+             right_side = right_side.replace(/\./g, "");
+             left_side = formatNumber(left_side);
+             right_side = formatNumber(right_side);
+             right_side = right_side.substring(0, 2);
+             money = left_side + "." + right_side;
+         }
+         else {
+             money = formatNumber(money);
+         }
+         return money;
+     }
+
+     function change_cash2(money) {
+         money = money.replace(/[^\d.-]/g, '');
+         if (money.indexOf(".") >= 0) {
+             var decimal_pos = money.indexOf(".");
+             var left_side = money.substring(0, decimal_pos);
+             var right_side = money.substring(decimal_pos);
+             right_side = right_side.replace(/\./g, "");
+             left_side = formatNumber(left_side);
+             right_side = formatNumber(right_side);
+             right_side = right_side.substring(0, 2);
+             money = "$" + left_side;
+         }
+         else {
+             money = "$" + formatNumber(money); //+ ;
+         }
+         return money;
+     }
+
+     function formatNumber(n) {
+         return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+     }
+
+        function round(x) {
+             return Math.floor(x / 25) * 25;
+         }
+
+         function calculate_total_taxes() {
+
+             var annual_income = Number(document.getElementById("annual_income").value.replace(/[^\d.-]/g, ''));
+
+             //Use for all tax calculations
+             var filing = document.getElementById("file_select").value * 1;
+
+             //Use for Federal Income Taxes Calculation
+             var fed_income_taxes = 0;
+             var federal_deduction = 0;
+             var fed_tax_income = 0;
+             var fed_tax_bracket = [];
+             var fed_tax_rate = [];
+             var fed_taxes_paid = [];
+             var fed_applied_income = [];
+
+
+           if (filing === 1){
+             federal_deduction = 12550;
+             fed_tax_bracket.push(0,9950,40525,86375,164925,209425,523600,1000000000,0,0,0,0,0);
+             fed_tax_rate.push(.1,.12,.22,.24,.32,.35,.37,0,0,0,0,0);
+           } else {
+             federal_deduction = 25100;
+             fed_tax_bracket.push(0,19900,81050,172750,329850,418850,628300,1000000000,0,0,0,0,0);
+             fed_tax_rate.push(.1,.12,.22,.24,.32,.35,.37,0,0,0,0,0);
+           }
+             var fed_tax_income = annual_income - federal_deduction;
+
+             var fed_table = "<table style='width:100%'  class=table table-md'>" +
+             	"<tr>" +
+                 "<th style='background-color: #100000; text-align:center; color: white;'>Federal Tax Bracket</th>" +
+                 "<th style='background-color: #100000; text-align:center; color: white;'>Tax Rate</th>" +
+             	"<th style='background-color: #100000; text-align:center; color: white;'>Applied Income</th>" +
+             	"<th style='background-color: #100000; text-align:center; color: white;'>Taxes Paid</th>" +
+                 "</tr>";
+
+             var i=0;
+             for (i=0; i<12; i++){
+               var fed_income_amount = Math.min(fed_tax_income-fed_tax_bracket[i],fed_tax_bracket[i+1]-fed_tax_bracket[i]);
+               var fed_bracket = Math.max(fed_income_amount*fed_tax_rate[i],0);
+
+                 fed_applied_income.push(Math.max(fed_income_amount,0));
+                 fed_taxes_paid.push(fed_bracket);
+                 fed_income_taxes += fed_bracket;
+
+                 if (i === 0 && fed_tax_rate[0] == 0){
+                   var fed_tb1 = '$0-' + '&infin;';
+                 } else if (i === 0 && fed_tax_bracket[i+1] >= 1000000000){
+                   fed_tb1 = change_cash2(String(fed_tax_bracket[i])) + '+';
+                 } else if (i > 0  && fed_tax_bracket[i+1] >= 1000000000){
+                   fed_tb1 = change_cash2(String(fed_tax_bracket[i])) + '+';
+                 } else {
+                   fed_tb1 = change_cash2(String(fed_tax_bracket[i])) + ' - ' + change_cash2(String(fed_tax_bracket[i + 1]));
+                 }
+
+                 if (fed_tax_rate[i] == 0 && i >= 1) {
+                   break;
+                 } else {
+                fed_table += "<tr>" +
+             		"<th style='text-align:center;'>" + fed_tb1 + "</th>" +
+             		"<th style='text-align:center;'>" + (fed_tax_rate[i]*100).toFixed(2)+'%' + "</th>" +
+             		"<th style='text-align:center;'>" + change_cash2(String(Math.min(fed_applied_income[i]))) +
+             		"<th style='text-align:center;'>" + change_cash2(String(Math.ceil(fed_taxes_paid[i]))) +
+             		"</th>";
+                 }
+               }
+
+             fed_table += "</table>"
+
+             //Use for Social Security Taxes Calculation
+             var ss_tax_rate = .062;
+             var ss_max_income = 142800;
+             var ss_income = Math.min(annual_income, ss_max_income)
+             var social_security_tax = ss_tax_rate * ss_income;
+             var ss_table = "<table style='width:100%'  class=table table-md'>" +
+             	"<tr>" +
+                 "<th style='background-color: #100000; text-align:center; color: white;'>Federal Tax Bracket</th>" +
+                 "<th style='background-color: #100000; text-align:center; color: white;'>Tax Rate</th>" +
+             	"<th style='background-color: #100000; text-align:center; color: white;'>Applied Income</th>" +
+             	"<th style='background-color: #100000; text-align:center; color: white;'>Taxes Paid</th>" +
+                 "</tr>";
+             ss_table += "<tr>" +
+             		"<th style='text-align:center;'>0 - $142,800</th>" +
+             		"<th style='text-align:center;'>" + (ss_tax_rate*100).toFixed(2)+'%' + "</th>" +
+             		"<th style='text-align:center;'>" + change_cash2(String(ss_income)) +
+             		"<th style='text-align:center;'>" + change_cash2(String(Math.ceil(social_security_tax))) +
+             		"</th>";
+             ss_table += "</table>"
+
+             //Use for Medicare Taxes Calculation
+             var additional_medicare = 0;
+             var additional_medicare_tax_rate = .009;
+             var additional_medicare_tax_minimum = 200000;
+               if (annual_income >= additional_medicare_tax_minimum) {
+                 var additional_medicare_amount = annual_income - additional_medicare_tax_minimum;
+                 additional_medicare =  additional_medicare_amount * additional_medicare_tax_rate;
+               }
+             var medicare_tax_rate = .0145;
+             var standard_medicare = medicare_tax_rate * annual_income;
+
+             var medicare_tax = (medicare_tax_rate * annual_income) + additional_medicare;
+             var md_table = "<table style='width:100%'  class=table table-md'>" +
+             	"<tr>" +
+                 "<th style='background-color: #100000; text-align:center; color: white;'>Federal Tax Bracket</th>" +
+                 "<th style='background-color: #100000; text-align:center; color: white;'>Tax Rate</th>" +
+             	"<th style='background-color: #100000; text-align:center; color: white;'>Applied Income</th>" +
+             	"<th style='background-color: #100000; text-align:center; color: white;'>Taxes Paid</th>" +
+                 "</tr>";
+             md_table += "<tr>" +
+             		"<th style='text-align:center;'>$0 +</th>" +
+             		"<th style='text-align:center;'>" + (medicare_tax_rate*100).toFixed(2)+'%' + "</th>" +
+             		"<th style='text-align:center;'>" + change_cash2(String(annual_income)) +
+             		"<th style='text-align:center;'>" + change_cash2(String(Math.ceil(standard_medicare))) +
+             		"</th>";
+             md_table += "<tr>" +
+             		"<th style='text-align:center;'>$200,000+</th>" +
+             		"<th style='text-align:center;'>" + (additional_medicare_tax_rate*100).toFixed(2)+'%' + "</th>" +
+             		"<th style='text-align:center;'>" + change_cash2(String(additional_medicare_amount)) +
+             		"<th style='text-align:center;'>" + change_cash2(String(Math.ceil(additional_medicare))) +
+             		"</th>";
+             md_table += "</table>"
+
+             //Use for State Income Taxes Calculation
+             var state = document.getElementById("state_select").value * 1;
+             var state_income_taxes = 0;
+             var state_deduction = 0;
+             var state_tax_income = 0;
+             var taxes_paid = [];
+             var applied_income = [];
+             var tax_bracket = [];
+             var tax_rate = [];
+
+             var state_table = "<table style='width: 100%;'  class=table table-md'>" +
+             	"<tr>" +
+                 "<th style='background-color: #100000; text-align:center; color: white;'>State Tax Bracket</th>" +
+                 "<th style='background-color: #100000; text-align:center; color: white;'>Tax Rate</th>" +
+             	"<th style='background-color: #100000; text-align:center; color: white;'>Applied Income</th>" +
+             	"<th style='background-color: #100000; text-align:center; color: white;'>Taxes Paid</th>" +
+                 "</tr>";
+
+             if (state === 1) { //ALABAMA TAXES
+               var fed_deduction = fed_income_taxes;
+               var personal_exemption = 0;
+               var state_deduction = 0;
+
+             if (filing === 1){
+               state_deduction = round(Math.max(2000, 2500 - ((annual_income - 23499) / 500 * 25)));
+               tax_bracket.push(0,500,3000,1000000000,0,0,0,0,0,0,0,0,0);
+               tax_rate.push (.02,.04,.05,0,0,0,0,0,0,0,0,0);
+             } else {
+               state_deduction = round(Math.max(4000, 7500 - ((annual_income - 23499) / 500 * 25)));
+               tax_bracket.push(0,1000,6000,1000000000,0,0,0,0,0,0,0,0,0);
+               tax_rate.push (.02,.04,.05,0,0,0,0,0,0,0,0,0);
+             }
+
+           } else if (state === 2){ //ALASKA TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,0,0,0,0,0,0,0,0,0,0,0,0);
+               tax_rate.push(0,0,0,0,0,0,0,0,0,0,0,0);
+
+           } else if (state === 3){ //ARIZONA TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 12550;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,27272,54544,163632,250000,1000000000,0,0,0,0,0,0,0);
+               tax_rate.push (.0259,.0334,.0417,.0450,.08,0,0,0,0,0,0,0);
+             } else {
+               state_deduction = 25100;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,54544,109088,327263,500000,1000000000,0,0,0,0,0,0,0);
+               tax_rate.push (.0259,.0334,.0417,.0450,.08,0,0,0,0,0,0,0);
+             }
+
+           } else if (state === 4) { //ARKANSAS TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+               if (filing === 1){
+                 state_deduction = 2200;
+                 state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+                   if (annual_income <= 22899) {
+                     tax_bracket.push(0,4700,9200,13900,100000000,0,0,0,0,0,0,0,0);
+                     tax_rate.push (0,.02,.03,.034,0,0,0,0,0,0,0,0);
+                   } else if (annual_income <=82000){
+                     tax_bracket.push(0,4700,9200,13900,22900,38500,100000000000,0,0,0,0,0,0);
+                     tax_rate.push (.0075,.025,.035,.045,.05,.059,0,0,0,0,0,0);
+                   } else {
+                     tax_bracket.push(0,4000,8000,100000000000,0,0,0,0,0,0,0,0,0);
+                     tax_rate.push (.02,.04,.059,0,0,0,0,0,0,0,0,0);
+                  }
+               } else {
+                   state_deduction = 4400;
+                   state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+                   if (annual_income <= 22899) {
+                     tax_bracket.push(0,4700,9200,13900,100000000,0,0,0,0,0,0,0,0);
+                     tax_rate.push (0,.02,.03,.034,0,0,0,0,0,0,0,0);
+                   } else if (annual_income <=82000){
+                     tax_bracket.push(0,4700,9200,13900,22900,38500,100000000000,0,0,0,0,0,0);
+                     tax_rate.push (.0075,.025,.035,.045,.05,.059,0,0,0,0,0,0);
+                   } else {
+                     tax_bracket.push(0,4000,8000,100000000000,0,0,0,0,0,0,0,0,0);
+                     tax_rate.push (.02,.04,.059,0,0,0,0,0,0,0,0,0);
+                  }
+               }
+
+           } else if (state === 5){ //CALIFORNIA TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 4601;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,8932,21175,33421,46394,58634,299508,359407,599012,1000000,1000000000,0,0);
+               tax_rate.push (.01,.02,.04,.06,.08,.093,.103,.113,.123,.133,0,0);
+             } else {
+               state_deduction = 9202;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,17864,42350,66842,92788,117268,599016,718817,1000000,1198024,1000000000,0,0);
+               tax_rate.push (.01,.02,.04,.06,.08,.093,.103,.113,.123,.133,0,0);
+             }
+
+           } else if (state === 6){ //COLORADO TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+            if (filing === 1){
+               state_deduction = 12550;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,1000000000,0,0,0,0,0,0,0,0,0,0,0);
+               tax_rate.push(.0455,0,0,0,0,0,0,0,0,0,0,0);
+            } else {
+               state_deduction = 25100;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,1000000000,0,0,0,0,0,0,0,0,0,0,0);
+               tax_rate.push(.0455,0,0,0,0,0,0,0,0,0,0,0);
+            }
+
+           } else if (state === 7){ //CONNECTICUT TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 0;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,10000,50000,100000,200000,250000,500000,1000000000,0,0,0,0,0);
+               tax_rate.push (.03,.05,.055,.06,065,.069,.0699,0,0,0,0,0);
+             } else {
+               state_deduction = 0;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,20000,100000,200000,400000,500000,1000000,1000000000,0,0,0,0,0);
+               tax_rate.push (.03,.05,.055,.06,065,.069,.0699,0,0,0,0,0);
+             }
+
+           } else if (state === 8){ //DELEWARE TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 3250;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,2000,5000,10000,20000,25000,60000,1000000000,0,0,0,0,0);
+               tax_rate.push (0,.022,.039,.048,.052,.0555,.066,0,0,0,0,0,0);
+             } else {
+               state_deduction = 6500;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,2000,5000,10000,20000,25000,60000,1000000000,0,0,0,0,0);
+               tax_rate.push (0,.022,.039,.048,.052,.0555,.066,0,0,0,0,0,0);
+             }
+
+           } else if (state === 9){ //FLORIDA TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+               state_deduction = 0;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,0,0,0,0,0,0,0,0,0,0,0,0);
+               tax_rate.push(0,0,0,0,0,0,0,0,0,0,0,0);
+
+           } else if (state === 10){ //GEORGIA TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 4600;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,750,2250,3750,5250,7000,1000000000,0,0,0,0,0,0);
+               tax_rate.push (.01,.02,.03,.04,.05,.0575,0,0,0,0,0,0);
+             } else {
+               state_deduction = 6000;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,1000,3000,5000,7000,10000,1000000000,0,0,0,0,0,0);
+               tax_rate.push (.01,.02,.03,.04,.05,.0575,0,0,0,0,0,0);
+             }
+
+           } else if (state === 11){ //HAWAII TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 2200;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,2400,4800,9600,14400,19200,24000,36000,48000,150000,175000,200000,1000000000);
+               tax_rate.push (.014,.032,.055,.064,.068,.072,.076,.079,.0825,.09,.1,.11);
+             } else {
+               state_deduction = 4400;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,4800,9600,19200,28800,38400,48000,72000,96000,300000,350000,400000,1000000000);
+               tax_rate.push (.014,.032,.055,.064,.068,.072,.076,.079,.0825,.09,.1,.11);
+             }
+
+           } else if (state === 12){ //IDAHO TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 12550;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,1568,3136,4704,6272,7840,11760,1000000000,0,0,0,0,0);
+               tax_rate.push (.0113,.0313,.0363,.0463,.0563,.0663,.0693,0,0,0,0,0);
+             } else {
+               state_deduction = 25100;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,3136,6272,9408,12544,15680,23520,1000000000,0,0,0,0,0);
+               tax_rate.push (.0113,.0313,.0363,.0463,.0563,.0663,.0693,0,0,0,0,0);
+             }
+
+           } else if (state === 13){ //ILLINOIS TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+               var state_deduction = 0;
+               var state_tax_income = 0;
+
+               state_deduction = 0;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,1000000000,0,0,0,0,0,0,0,0,0,0,0);
+               tax_rate.push(.0495,0,0,0,0,0,0,0,0,0,0,0);
+
+           } else if (state === 14){ //INDIANA TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+               state_deduction = 0;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,1000000000,0,0,0,0,0,0,0,0,0,0,0);
+               tax_rate.push(.0323,0,0,0,0,0,0,0,0,0,0,0);
+
+           } else if (state === 15){ //IOWA TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 2130;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,1676,3352,6704,15084,25140,33520,50280,75420,1000000000,0,0,0);
+               tax_rate.push (.0033,.0067,.0225,.0414,.0563,.0596,.0625,.0744,.0853,0,0,0);
+             } else {
+               state_deduction = 5240;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,1676,3352,6704,15084,25140,33520,50280,75420,1000000000,0,0,0);
+               tax_rate.push (.0033,.0067,.0225,.0414,.0563,.0596,.0625,.0744,.0853,0,0,0);
+             }
+
+           } else if (state === 16){ //KANSAS TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 3000;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,15000,30000,1000000000,0,0,0,0,0,0,0,0,0);
+               tax_rate.push (.310,.0525,.0570,0,0,0,0,0,0,0,0,0);
+             } else {
+               state_deduction = 7500;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,30000,60000,1000000000,0,0,0,0,0,0,0,0,0);
+               tax_rate.push (.310,.0525,.0570,0,0,0,0,0,0,0,0,0);
+             }
+
+           } else if (state === 17){ //KENTUCKY TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 2690;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,1000000000,0,0,0,0,0,0,0,0,0,0,0);
+               tax_rate.push(.05,0,0,0,0,0,0,0,0,0,0,0);
+             } else {
+               state_deduction = 5380;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,1000000000,0,0,0,0,0,0,0,0,0,0,0);
+               tax_rate.push(.05,0,0,0,0,0,0,0,0,0,0,0);
+             }
+
+           } else if (state === 18){ //LOUISIANA TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 0;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,12500,50000,1000000000,0,0,0,0,0,0,0,0,0);
+               tax_rate.push (.02,.04,.06,0,0,0,0,0,0,0,0,0);
+             } else {
+               state_deduction = 0;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,25000,100000,1000000000,0,0,0,0,0,0,0,0,0);
+               tax_rate.push (.02,.04,.06,0,0,0,0,0,0,0,0,0);
+             }
+
+           } else if (state === 19){ //MAINE TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 12550;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,22450,53150,1000000000,0,0,0,0,0,0,0,0,0);
+               tax_rate.push (.058,.0675,.0715,0,0,0,0,0,0,0,0,0);
+             } else {
+               state_deduction = 25100;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,44950,106350,1000000000,0,0,0,0,0,0,0,0,0);
+               tax_rate.push (.058,.0675,.0715,0,0,0,0,0,0,0,0,0);
+             }
+
+           } else if (state === 20){ //MARYLAND TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 2300;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,1000,2000,3000,100000,125000,150000,250000,1000000000,0,0,0,0);
+               tax_rate.push (.02,.03,.04,.0475,.05,.0525,.0550,.0575,0,0,0,0);
+             } else {
+               state_deduction = 4650;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,1000,2000,3000,150000,175000,225000,300000,1000000000,0,0,0,0);
+               tax_rate.push (.02,.03,.04,.0475,.05,.0525,.0550,.0575,0,0,0,0);
+             }
+
+           } else if (state === 21){ //MASSACHUSETTS TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 0;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,1000000000,0,0,0,0,0,0,0,0,0,0,0);
+               tax_rate.push(.05,0,0,0,0,0,0,0,0,0,0,0);
+             } else {
+               state_deduction = 0;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,1000000000,0,0,0,0,0,0,0,0,0,0,0);
+               tax_rate.push(.05,0,0,0,0,0,0,0,0,0,0,0);
+             }
+
+           } else if (state === 22){ //MICHIGAN TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 0;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,1000000000,0,0,0,0,0,0,0,0,0,0,0);
+               tax_rate.push(.0425,0,0,0,0,0,0,0,0,0,0,0);
+             } else {
+               state_deduction = 0;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,1000000000,0,0,0,0,0,0,0,0,0,0,0);
+               tax_rate.push(.0425,0,0,0,0,0,0,0,0,0,0,0);
+             }
+
+           } else if (state === 23){ //MINNESOTA TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 12525;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,27230,89440,166040,1000000000,0,0,0,0,0,0,0,0);
+               tax_rate.push (.0535,.068,.0785,.0985,0,0,0,0,0,0,0,0);
+             } else {
+               state_deduction = 25050;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,39810,158140,276200,1000000000,0,0,0,0,0,0,0,0);
+               tax_rate.push (.0535,.068,.0785,.0985,0,0,0,0,0,0,0,0);
+             }
+
+           } else if (state === 24){ //MISSISSIPPI TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 2300;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,4000,5000,10000,1000000000,0,0,0,0,0,0,0,0);
+               tax_rate.push (0,.03,.04,.05,.052,.0555,.066,0,0,0,0,0,0);
+             } else {
+               state_deduction = 4600;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,4000,5000,10000,1000000000,0,0,0,0,0,0,0,0);
+               tax_rate.push (0,.03,.04,.05,.052,.0555,.066,0,0,0,0,0,0);
+             }
+
+           } else if (state === 25){ //MISSOURI TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 12550;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,107,1073,2146,3219,4292,5365,6438,7511,8584,1000000000,0,0);
+               tax_rate.push (0,.015,.02,.025,.03,.035,.04,.045,.05,.054,0,0,0);
+             } else {
+               state_deduction = 25100;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,107,1073,2146,3219,4292,5365,6438,7511,8584,1000000000,0,0);
+               tax_rate.push (0,.015,.02,.025,.03,.035,.04,.045,.05,.054,0,0,0);
+             }
+
+           } else if (state === 26){ //MONTANA TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 4790;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,3100,5500,8400,11300,14500,18700,1000000000,0,0,0,0,0);
+               tax_rate.push (.01,.02,.03,.04,.05,.06,.069,0,0,0,0,0,0);
+             } else {
+               state_deduction = 9580;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,3100,5500,8400,11300,14500,18700,1000000000,0,0,0,0,0);
+               tax_rate.push (.01,.02,.03,.04,.05,.06,.069,0,0,0,0,0,0);
+             }
+
+           } else if (state === 27){ //NEBRASKA TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 7100;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,3340,19990,32210,1000000000,0,0,0,0,0,0,0,0,0);
+               tax_rate.push (.0246,.0351,.0501,.0684,0,0,0,0,0,0,0,0,0);
+             } else {
+               state_deduction = 14200;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,6660,39990,64430,1000000000,0,0,0,0,0,0,0,0,0);
+               tax_rate.push (.0246,.0351,.0501,.0684,0,0,0,0,0,0,0,0,0);
+             }
+
+           } else if (state === 28){ //NEVADA TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,0,0,0,0,0,0,0,0,0,0,0,0);
+               tax_rate.push(0,0,0,0,0,0,0,0,0,0,0,0);
+
+           } else if (state === 29){ //NEW HAMPSHIRE TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+               state_deduction = 0;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,1000000000,0,0,0,0,0,0,0,0,0,0,0);
+               tax_rate.push(.05,0,0,0,0,0,0,0,0,0,0,0);
+
+           } else if (state === 30){ //NEW JERSEY TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+            if (filing === 1){
+               state_deduction = 0;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,20000,35000,40000,75000,500000,1000000,1000000000,0,0,0,0,0);
+               tax_rate.push(.014,.0175,.035,.0553,.0637,.0897,.1075,0,0,0,0,0);
+            } else {
+               state_deduction = 0;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,20000,50000,70000,80000,150000,500000,1000000,1000000000,0,0,0,0);
+               tax_rate.push(.014,.0175,.0245,.035,.0553,.0637,.0897,.1075,0,0,0,0,0);
+            }
+
+           } else if (state === 31){ //NEW MEXICO TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 12550;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,5500,11000,16000,210000,1000000000,0,0,0,0,0,0,0);
+               tax_rate.push (.017,.032,.047,.049,.059,0,0,0,0,0,0,0,0);
+             } else {
+               state_deduction = 25100;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,8000,16000,24000,315000,1000000000,0,0,0,0,0,0,0);
+               tax_rate.push (.017,.032,.047,.049,.059,0,0,0,0,0,0,0,0);
+             }
+
+           } else if (state === 32){ //NEW YORK TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 8000;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,8500,11700,13900,21400,80650,215400,1077550,1000000000,0,0,0,0);
+               tax_rate.push (.04,.045,.0525,.059,.0597,.0633,.0685,.0882,0,0,0,0,0);
+             } else {
+               state_deduction = 16050;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,17150,23600,27900,43000,161550,323200,2155350,1000000000,0,0,0,0);
+               tax_rate.push (.04,.045,.0525,.059,.0597,.0633,.0685,.0882,0,0,0,0,0);
+             }
+
+           } else if (state === 33){ //NORTH CAROLINA TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 0;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,1000000000,0,0,0,0,0,0,0,0,0,0,0);
+               tax_rate.push(.0525,0,0,0,0,0,0,0,0,0,0,0);
+             } else {
+               state_deduction = 0;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,1000000000,0,0,0,0,0,0,0,0,0,0,0);
+               tax_rate.push(.0525,0,0,0,0,0,0,0,0,0,0,0);
+             }
+
+           } else if (state === 34){ //NORTH DAKOTA TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 12550;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(40125,97150,202650,440600,1000000000,0,0,0,0,0,0,0,0);
+               tax_rate.push (.011,.0204,.0227,.0264,.029,0,0,0,0,0,0,0,0);
+             } else {
+               state_deduction = 25100;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(40125,97150,202650,440600,1000000000,0,0,0,0,0,0,0,0);
+               tax_rate.push (.011,.0204,.0227,.0264,.029,0,0,0,0,0,0,0,0);
+             }
+
+           } else if (state === 35){ //OHIO TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+               state_deduction = 0;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,22150,44250,88450,110650,221000,1000000000,0,0,0,0,0,0);
+               tax_rate.push (.0285,.0333,.0380,.0441,.0480,0,0,0,0,0,0,0,0);
+
+           } else if (state === 36){ //OKLAHOMA TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 6350;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(1000,2500,3750,4900,7200,1000000000,0,0,0,0,0,0,0);
+               tax_rate.push (.005,.01,.02,.03,.04,.05,0,0,0,0,0,0,0);
+             } else {
+               state_deduction = 12700;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(2000,5000,7500,9800,12200,1000000000,0,0,0,0,0,0,0);
+               tax_rate.push (.005,.01,.02,.03,.04,.05,0,0,0,0,0,0,0);
+             }
+
+           } else if (state === 37){ //OREGON TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 2315;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(3650,9200,125000,1000000000,0,0,0,0,0,0,0,0,0);
+               tax_rate.push (.0475,.0675,.0875,.099,0,0,0,0,0,0,0,0,0);
+             } else {
+               state_deduction = 4630;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(7300,18400,250000,1000000000,0,0,0,0,0,0,0,0,0);
+               tax_rate.push (.0475,.0675,.0875,.099,0,0,0,0,0,0,0,0,0);
+             }
+
+           } else if (state === 38){ //PENNSYLVANIA TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+               state_deduction = 0;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,1000000000,0,0,0,0,0,0,0,0,0,0,0);
+               tax_rate.push(.0307,0,0,0,0,0,0,0,0,0,0,0);
+
+           } else if (state === 39){ //RHODE ISLAND TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 9050;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(66200,150550,1000000000,0,0,0,0,0,0,0,0,0,0);
+               tax_rate.push (.0375,.0475,.0599,0,0,0,0,0,0,0,0,0,0);
+             } else {
+               state_deduction = 18100;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(66200,150550,1000000000,0,0,0,0,0,0,0,0,0,0);
+               tax_rate.push (.0375,.0475,.0599,0,0,0,0,0,0,0,0,0,0);
+             }
+
+           } else if (state === 40){ //SOUTH CAROLINA TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 12549;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(3070,6150,9230,12310,15400,1000000000,0,0,0,0,0,0,0);
+               tax_rate.push (0,.03,.04,.05,.06,.07,0,0,0,0,0,0,0);
+             } else {
+               state_deduction = 25100;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(3070,6150,9230,12310,15400,1000000000,0,0,0,0,0,0,0);
+               tax_rate.push (0,.03,.04,.05,.06,.07,0,0,0,0,0,0,0);
+             }
+
+           } else if (state === 41){ //SOUTH DAKOTA TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,0,0,0,0,0,0,0,0,0,0,0,0);
+               tax_rate.push(0,0,0,0,0,0,0,0,0,0,0,0);
+
+           } else if (state === 42){ //TENNESSEE TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,0,0,0,0,0,0,0,0,0,0,0,0);
+               tax_rate.push(0,0,0,0,0,0,0,0,0,0,0,0);
+
+           } else if (state === 43){ //TEXAS TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,0,0,0,0,0,0,0,0,0,0,0,0);
+               tax_rate.push(0,0,0,0,0,0,0,0,0,0,0,0);
+
+            } else if (state === 44){ //UTAH TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 0;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,1000000000,0,0,0,0,0,0,0,0,0,0,0);
+               tax_rate.push(.0495,0,0,0,0,0,0,0,0,0,0,0);
+             } else {
+               state_deduction = 0;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,1000000000,0,0,0,0,0,0,0,0,0,0,0);
+               tax_rate.push(.0495,0,0,0,0,0,0,0,0,0,0,0);
+             }
+
+           } else if (state === 45){ //VERMONT TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 6250;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(40350,97800,204000,1000000000,0,0,0,0,0,0,0,0,0);
+               tax_rate.push (.0335,.0660,.0760,.0875,0,0,0,0,0,0,0,0,0);
+             } else {
+               state_deduction = 12500;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(40350,97800,204000,1000000000,0,0,0,0,0,0,0,0,0);
+               tax_rate.push (.0335,.0660,.0760,.0875,0,0,0,0,0,0,0,0,0);
+             }
+
+           } else if (state === 46){ //VIRGINIA TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 4499;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(3000,5000,17000,1000000000,0,0,0,0,0,0,0,0,0);
+               tax_rate.push (.02,.03,.05,.0575,0,0,0,0,0,0,0,0,0);
+             } else {
+               state_deduction = 9000;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(3000,5000,17000,1000000000,0,0,0,0,0,0,0,0,0);
+               tax_rate.push (.02,.03,.05,.0575,0,0,0,0,0,0,0,0,0);
+             }
+
+           } else if (state === 47){ //WASHINGTON TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,0,0,0,0,0,0,0,0,0,0,0,0);
+               tax_rate.push(0,0,0,0,0,0,0,0,0,0,0,0);
+
+           } else if (state === 48){ //WEST VIRGINIA TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 0;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(10000,25000,40000,60000,1000000000,0,0,0,0,0,0,0,0);
+               tax_rate.push (.03,.04,.045,.06,.065,0,0,0,0,0,0,0,0);
+             } else {
+               state_deduction = 0;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(10000,25000,40000,60000,1000000000,0,0,0,0,0,0,0,0);
+               tax_rate.push (.03,.04,.045,.06,.065,0,0,0,0,0,0,0,0);
+             }
+
+           } else if (state === 49){ //WISCONSIN TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 11050;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(12120,24250,266930,1000000000,0,0,0,0,0,0,0,0,0);
+               tax_rate.push (.0354,.0465,.0627,.0765,0,0,0,0,0,0,0,0,0);
+             } else {
+               state_deduction = 20470;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(16160,32330,355910,1000000000,0,0,0,0,0,0,0,0,0);
+               tax_rate.push (.0354,.0465,.0627,.0765,0,0,0,0,0,0,0,0,0);
+             }
+
+           } else if (state === 50){ //WYOMING TAXES
+               var fed_deduction = 0;
+               var personal_exemption = 0;
+
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(0,0,0,0,0,0,0,0,0,0,0,0,0);
+               tax_rate.push(0,0,0,0,0,0,0,0,0,0,0,0);
+
+           } else {
+               var fed_deduction = fed_income_taxes;
+               var personal_exemption = 0;
+
+             if (filing === 1){
+               state_deduction = 12550;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(10000,40000,60000,350000,1000000,1000000000,0,0,0,0,0,0,0);
+               tax_rate.push (.04,.06,.065,.085,.0875,.0895,0,0,0,0,0,0,0);
+             } else {
+               state_deduction = 25100;
+               state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               tax_bracket.push(10000,40000,60000,350000,1000000,1000000000,0,0,0,0,0,0,0);
+               tax_rate.push (.04,.06,.065,.085,.0875,.0895,0,0,0,0,0,0,0);
+             }
+           }
+
+               var state_tax_income = annual_income - fed_deduction - personal_exemption - state_deduction;
+               var i=0;
+               for (i=0; i<12; i++){
+                 var income_amount = Math.min(state_tax_income-tax_bracket[i],tax_bracket[i+1]-tax_bracket[i]);
+                 var bracket = Math.max(income_amount*tax_rate[i],0);
+
+                 applied_income.push(Math.max(income_amount,0));
+                 taxes_paid.push(bracket);
+                 state_income_taxes += bracket;
+
+                 if (i === 0 && tax_rate[0] == 0){
+                   var tb1 = 'No State Income Taxes';
+                 } else if (i === 0 && tax_bracket[i+1] >= 1000000000){
+                   tb1 = change_cash2(String(tax_bracket[i])) + '+';
+                 } else if (i > 0  && tax_bracket[i+1] >= 1000000000){
+                   tb1 = change_cash2(String(tax_bracket[i])) + '+';
+                 } else {
+                   tb1 = change_cash2(String(tax_bracket[i])) + ' - ' + change_cash2(String(tax_bracket[i + 1]));
+                 }
+
+                 if (tax_rate[i] == 0 && i >= 1) {
+                   break;
+                 } else {
+                state_table += "<tr>" +
+             		"<th style='text-align:center;'>" + tb1 + "</th>" +
+             		"<th style='text-align:center;'>" + (tax_rate[i]*100).toFixed(2)+'%' + "</th>" +
+             		"<th style='text-align:center;'>" + change_cash2(String(Math.min(applied_income[i]))) +
+             		"<th style='text-align:center;'>" + change_cash2(String(Math.ceil(taxes_paid[i]))) +
+             		"</th>";
+                 }
+               }
+
+               state_table += "</table>"
+               var total_taxes = fed_income_taxes + social_security_tax + medicare_tax + state_income_taxes;
+               var pt_income = annual_income - total_taxes;
+               var effective_tax = total_taxes / annual_income;
+
+               document.getElementById("annual_income").value = change_cash2(document.getElementById("annual_income").value);
+               document.getElementById("salary").innerHTML = change_cash2(document.getElementById("annual_income").value);
+               document.getElementById("federal_taxes").innerHTML = change_cash2(String(fed_income_taxes));
+               document.getElementById("ss_taxes").innerHTML = change_cash2(String(social_security_tax));
+               document.getElementById("medicare_taxes").innerHTML = change_cash2(String(medicare_tax));
+               document.getElementById("state_taxes").innerHTML = change_cash2(String(state_income_taxes));
+               document.getElementById("state_taxes").innerHTML = change_cash2(String(state_income_taxes));
+               document.getElementById("all_taxes").innerHTML = change_cash2(String(total_taxes));
+               document.getElementById("pt_income").innerHTML = change_cash2(String(pt_income));
+               document.getElementById("effective_tax").innerHTML = change_percentage2(String(effective_tax*100));
+
+               document.getElementById("fed_change_table").innerHTML = fed_table;
+               document.getElementById("ss_change_table").innerHTML = ss_table;
+               document.getElementById("medicare_change_table").innerHTML = md_table;
+               document.getElementById("state_change_table").innerHTML = state_table;
+               };
+
+     </script>
